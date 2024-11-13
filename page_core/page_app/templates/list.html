@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Produtos{% endblock %}
+
+{% block content %}
+<h1>Produtos</h1>
+<div class="container">
+
+    <form class="d-flex gap-3 mt-2" action="{% url 'product-list' %}" method="GET">
+
+        <span class="fw-bold">Pesquisar: </span>
+
+        <input type="text" name="obj" value="{{ request.GET.obj }}" class="form-control" placeholder="Pesquisar pelo nome do produto...">
+
+        {% if request.GET.obj %}
+        <a href="{% url 'product-list' %}" class="btn btn-primary">Reset</a>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary">Buscar</button>
+
+    </form>
+    
+    <table class="table"> 
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Preço</th>
+                <th scope="col">Descrição</th>
+            </tr>
+        </thead> 
+        <tbody>
+            {% for product in page_obj %}
+            <tr>
+                <th scope="row">{{ product.id }}</th>
+                <th scope="row">{{ product.name|upper }}</th>
+                <th scope="row">{{ product.price }}</th>
+                <th scope="row">{{ product.description }}</th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table> 
+    {% include 'pagination.html' %} 
+</div> 
+{% endblock %}
